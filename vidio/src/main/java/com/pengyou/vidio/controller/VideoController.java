@@ -9,6 +9,6 @@ public class VideoController {
     @RequestMapping("/test")
     public String test(){
 
-        return "hello video1231231231123123";
+        return "hello video123123123112312312";
     }
 }

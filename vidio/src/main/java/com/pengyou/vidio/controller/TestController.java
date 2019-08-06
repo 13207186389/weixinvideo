@@ -1,6 +1,7 @@
 package com.pengyou.vidio.controller;
 
 import com.pengyou.vidio.config.WeChatConfig;
+import com.pengyou.vidio.domain.JsonData;
 import com.pengyou.vidio.domain.Video;
 import com.pengyou.vidio.mapper.VideoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +23,10 @@ public class TestController {
     private WeChatConfig weChatConfig;
 
     @RequestMapping("/test_config")
-    public String testConfig(){
+    public JsonData testConfig(){
 
         System.out.println(weChatConfig.getAppId());
-        return "hello xdclass.net";
+        return JsonData.buildSuccess(weChatConfig.getAppId());
     }
 
     @Autowired(required = false)
@@ -33,8 +34,6 @@ public class TestController {
 
     @RequestMapping("/test_db")
     public Object testDB(){
-
-
 
         return videoMapper.findAll();
     }

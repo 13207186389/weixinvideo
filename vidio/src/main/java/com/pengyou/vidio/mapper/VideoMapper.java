@@ -1,6 +1,8 @@
 package com.pengyou.vidio.mapper;
 
+import com.alibaba.druid.proxy.jdbc.JdbcParameter;
 import com.pengyou.vidio.domain.Video;
+import com.pengyou.vidio.provider.VideoProvider;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -14,7 +16,8 @@ public interface VideoMapper {
     Video findById(int id);
 
 
-    @Update("UPDATE video SET title=#{title} WHERE id =#{id}")
+    //@Update("UPDATE video SET title=#{title} WHERE id =#{id}")
+    @UpdateProvider(type = VideoProvider.class,method = "updateVideo")
     int update(Video Video);
 
     @Delete("DELETE FROM video WHERE id =#{id}")

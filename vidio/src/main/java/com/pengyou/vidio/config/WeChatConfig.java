@@ -81,7 +81,7 @@ public class WeChatConfig {
     /**
      * 统一下单url
      */
-    private static final String UNIFIED_ORDER_URL = "https://api.mch.weixin.qq.com/pay/unifiedorder";
+    private static final String UNIFIED_ORDER_URL = "http://api.xdclass.net/pay/unifiedorder";
 
 
     public static String getUnifiedOrderUrl() {

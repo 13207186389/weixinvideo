@@ -37,7 +37,7 @@ public class VideoOrderServiceImpl implements VideoOrderService {
     private UserMapper userMapper;
 
     @Override
-    public VideoOrder save(VideoOrderDto videoOrderDto) throws Exception{
+    public String save(VideoOrderDto videoOrderDto) throws Exception{
         //查找视频信息
         Video video =  videoMapper.findById(videoOrderDto.getVideoId());
 
@@ -60,17 +60,21 @@ public class VideoOrderServiceImpl implements VideoOrderService {
         videoOrder.setOutTradeNo(CommonUtils.generateUUID());
         videoOrderMapper.insert(videoOrder);
 
+        //统一下单,生成签名,获取codeurl并返回
+        String codeUrl=unifiedOrder(videoOrder);
 
-        //统一下单,生成签名
+        return codeUrl;
+    }
 
-        unifiedOrder(videoOrder);
+    @Override
+    public VideoOrder findByOutTradeNo(String outTradeNo) {
 
-        //获取codeurl
+        return videoOrderMapper.findByOutTradeNo(outTradeNo);
+    }
 
-
-        //生成二维码
-
-        return null;
+    @Override
+    public int updateVideoOderByOutTradeNo(VideoOrder videoOrder) {
+        return videoOrderMapper.updateVideoOderByOutTradeNo(videoOrder);
     }
 
 
@@ -98,7 +102,7 @@ public class VideoOrderServiceImpl implements VideoOrderService {
 
         //map转xml
         String payXml = WXPayUtil.mapToXml(params);
-
+        String url=WeChatConfig.getUnifiedOrderUrl();
         //统一下单 返回一个xml文本
         String orderStr=HttpUtils.doPost(WeChatConfig.getUnifiedOrderUrl(),payXml,4000);
         if(null == orderStr) {
@@ -108,11 +112,13 @@ public class VideoOrderServiceImpl implements VideoOrderService {
         //把返回的xml转换成一个Map
         Map<String, String> unifiedOrderMap =  WXPayUtil.xmlToMap(orderStr);
         System.out.println(unifiedOrderMap.toString());
+        if(unifiedOrderMap!=null){
+            return unifiedOrderMap.get("code_url");
+        }
 
 
 
-
-        return "";
+        return null;
     }
 
 }

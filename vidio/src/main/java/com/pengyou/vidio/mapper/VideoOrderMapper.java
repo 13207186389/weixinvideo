@@ -3,12 +3,14 @@ package com.pengyou.vidio.mapper;
 
 import com.pengyou.vidio.domain.VideoOrder;
 import org.apache.ibatis.annotations.*;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 /**
  * 订单dao层
  */
+@Repository
 public interface VideoOrderMapper {
 
 

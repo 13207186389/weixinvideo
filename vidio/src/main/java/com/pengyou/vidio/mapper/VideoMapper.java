@@ -4,9 +4,11 @@ import com.alibaba.druid.proxy.jdbc.JdbcParameter;
 import com.pengyou.vidio.domain.Video;
 import com.pengyou.vidio.provider.VideoProvider;
 import org.apache.ibatis.annotations.*;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface VideoMapper {
 
     @Select("select*from video")

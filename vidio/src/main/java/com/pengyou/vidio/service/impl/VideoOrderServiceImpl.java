@@ -13,8 +13,12 @@ import com.pengyou.vidio.service.VideoOrderService;
 import com.pengyou.vidio.utils.CommonUtils;
 import com.pengyou.vidio.utils.HttpUtils;
 import com.pengyou.vidio.utils.WXPayUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.Map;
@@ -23,6 +27,11 @@ import java.util.TreeMap;
 
 @Service
 public class VideoOrderServiceImpl implements VideoOrderService {
+
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    private Logger dataLogger = LoggerFactory.getLogger("dataLogger");
+
 
     @Autowired
     private WeChatConfig weChatConfig;
@@ -36,8 +45,13 @@ public class VideoOrderServiceImpl implements VideoOrderService {
     @Autowired
     private UserMapper userMapper;
 
-    @Override
+    @Override       //隔离级别
+    @Transactional(propagation = Propagation.REQUIRED)
     public String save(VideoOrderDto videoOrderDto) throws Exception{
+
+        dataLogger.info("module=video_order`api=save`user_id={}`video_id={}",videoOrderDto.getUserId(),videoOrderDto.getVideoId());
+        logger.info("1234567894561234567894651321456789");
+
         //查找视频信息
         Video video =  videoMapper.findById(videoOrderDto.getVideoId());
 

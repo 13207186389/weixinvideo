@@ -28,8 +28,8 @@ import java.util.Map;
  * 订单接口
  */
 @RestController
-//@RequestMapping("/user/api/v1/order")
-@RequestMapping("/api/v1/order")
+@RequestMapping("/user/api/v1/order")
+//@RequestMapping("/api/v1/order")
 public class OrderController {
 
     @Autowired
@@ -39,10 +39,10 @@ public class OrderController {
     public void saveOrder(@RequestParam(value = "video_id",required = true)int videoId,
                               HttpServletRequest request, HttpServletResponse response)throws Exception{
 
-        //String ip = IpUtils.getIpAddr(request);
-        String ip="120.25.1.43";//临时写死
-        //int userId = request.getAttribute("user_id");
-        int userId = 1; //临时写死的
+        String ip = IpUtils.getIpAddr(request);
+        //String ip="120.25.1.43";//临时写死
+        int userId = (Integer) request.getAttribute("user_id");
+        //int userId = 1; //临时写死的
         VideoOrderDto videoOrderDto = new VideoOrderDto();
         videoOrderDto.setUserId(userId);
         videoOrderDto.setVideoId(videoId);
